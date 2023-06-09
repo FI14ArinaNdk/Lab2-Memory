@@ -26,7 +26,6 @@ private:
 };
 TEST(ObjectCreationTest, StackObjectCreat) {
     Class stackObject;
-    ASSERT_TRUE(true);
     stackObject.setValue(24);
     ASSERT_EQ(stackObject.getValue(), 24);
 }

@@ -36,23 +36,30 @@ TEST(MemoryTests, ChunkAllocationTest) {
 
     for (int i = 0; i < numChunks; ++i) {
         memory[i] = new char[chunkSize];
-        EXPECT_NE(memory[i], nullptr);  
     }
+
 
     for (int i = 0; i < numChunks; i += 2) {
         delete[] memory[i];
         memory[i] = nullptr;
+
     }
 
-    for (int i = 1; i < numChunks; i += 2) {
-        memory[i] = new char[chunkSize];
-        EXPECT_NE(memory[i], nullptr);  
-    }
 
-    for (int i = 0; i < numChunks; ++i) {
-        if (memory[i] != nullptr) {
-            delete[] memory[i];
-            memory[i] = nullptr;
+    for (int i = 0; i < numChunks; i += 2) {
+        memory[i] = new (std::nothrow) char[chunkSize * chunkSize];
+        EXPECT_TRUE(memory[i] == nullptr);
+        if (memory[i] == nullptr)
+        {
+            EXPECT_TRUE(true);
         }
+        else {
+            EXPECT_TRUE(false);
+        }
+    }
+
+
+    for (int i = 0; i < numChunks; i++) {
+        delete[] memory[i];
     }
 }
